@@ -13,11 +13,11 @@ module.exports = (req, res, next) => {
           message: 'jwt expired, please loggin again'
         });
       } else {
-        res.userData = decoded; //do we need that information?
+        res.userData = decoded; //do we need that information?, yes now we are using when re generating tokens each request
         next();
       }
     });
-  } catch(err) {
+  } catch (err) {
     return res.status(401).json({
       message: 'Auth failed'
     });
