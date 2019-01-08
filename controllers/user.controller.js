@@ -1,6 +1,6 @@
 const User = require('../models/user.model');
 const passwordHash = require('password-hash');
-const jwt = require('jsonwebtoken');
+const UserHelper = require('./userHelper');
 
 exports.user_create = (req, res, next) => {
 
@@ -29,7 +29,7 @@ exports.user_create = (req, res, next) => {
               .status(201)
               .json({
                 message: 'User created',
-                token: getToken(userCreated), //TODO dont forget check some es6 rules
+                token: UserHelper.generateToken(userCreated.email, userCreated._id), //TODO dont forget check some es6 rules
                 data: {
                   name: userCreated.name,
                   email: userCreated.email,
@@ -71,7 +71,7 @@ exports.user_login = (req, res, next) => {
       if (matchPassword) {
         res.status(200).json({
           message: 'User successfully logged in',
-          token: getToken(user),
+          token: UserHelper.generateToken(user.email, user._id),
           data: {
             name: user.name,
             email: user.email,
@@ -129,25 +129,3 @@ exports.user_details = (req, res, next) => {
       });
     });
 };
-
-let getToken = (data) => {
-  let token = jwt.sign(
-    {
-      email: data.email,
-      userId: data._id
-    },
-    'secret', //TODO needs put it in a env variables,
-    {
-      // expiresIn: '12000' //2 minutes
-      /**
-       * TODO
-       * Set a reasonable expiration time on tokens
-       * Delete the stored token from client side upon log out
-       * Have DB of no longer active tokens that still have some time to live
-       * Query provided token against The Blacklist on every authorized request
-       */
-      expiresIn: (60 * 2) //2 minutes
-    }
-  );
-  return token;
-}

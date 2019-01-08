@@ -1,5 +1,5 @@
 const Acuarela = require('../models/acuarela.model');
-const jwt = require('jsonwebtoken');
+const UserHelper = require('./userHelper');
 
 exports.acuarela_create = (req, res, next) => {
     let acuarela = new Acuarela({
@@ -25,7 +25,7 @@ exports.acuarela_create = (req, res, next) => {
                 name: acuarela.name,
                 rating: acuarela.rating,
             },
-            token: getToken(res.userData)
+            token: UserHelper.generateToken(res.userData)
         });
     })
 };
@@ -36,7 +36,7 @@ exports.acuarela_all = (req, res) => {
 
         res.status(200).send({
             data: acuarelas,
-            token: getToken(res.userData)
+            token: UserHelper.generateToken(res.userData)
         });
     });
 }
@@ -47,7 +47,7 @@ exports.acuarela_details = (req, res) => {
 
         res.status(200).send({
             data: acuarela,
-            token: getToken(res.userData)
+            token: UserHelper.generateToken(res.userData)
         });
     })
 };
@@ -58,7 +58,7 @@ exports.acuarela_update = (req, res) => {
 
         res.status(200).send({
             data: 'Acuarela udpated.',
-            token: getToken(res.userData)
+            token: UserHelper.generateToken(res.userData.email, res.userData.userId)
         });
     });
 };
@@ -67,21 +67,7 @@ exports.acuarela_delete = (req, res) => {
     Acuarela.findByIdAndRemove(req.params.id, (err) => {
         if (err) return next(err);
         res.status(204).send({
-            token: getToken(res.userData)
+            token: UserHelper.generateToken(res.userData.email, res.userData.userId)
         }); //no body response
     })
 };
-
-let getToken = (data) => {
-    let token = jwt.sign(
-        {
-            email: data.email,
-            userId: data.userId
-        },
-        'secret',
-        { //TODO needs put it in a env variables,
-            expiresIn: (60 * 2) //2 minutes
-        }
-    );
-    return token;
-}
