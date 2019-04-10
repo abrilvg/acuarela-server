@@ -19,6 +19,6 @@
     "jsonwebtoken": "^8.4.0",
     "mongodb": "^3.1.9",
     "mongoose": "^5.3.12",
-    "password-hash": "^1.2.2"
+    "password-hash": "1.2.2"
   }
 }

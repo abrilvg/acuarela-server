@@ -2,12 +2,12 @@ const Acuarela = require('../models/acuarela.model');
 const UserHelper = require('./userHelper');
 
 exports.acuarela_create = (req, res, next) => {
+
     let acuarela = new Acuarela({
         name: req.body.name,
         artistId: req.body.authorId,
-        startDate: req.body.startDate,
-        endDate: req.body.endDate,
-        image: req.body.image,
+        createdDate: req.body.createdDate,
+        images: req.body.images,
         technique: req.body.technique,
         material: req.body.material,
         country: req.body.country,
@@ -31,7 +31,7 @@ exports.acuarela_create = (req, res, next) => {
 };
 
 exports.acuarela_all = (req, res) => {
-    Acuarela.find({}, 'name rating technique', (err, acuarelas) => {
+    Acuarela.find({}, 'name rating technique images', (err, acuarelas) => {
         if (err) return next(err);
 
         res.status(200).send({
