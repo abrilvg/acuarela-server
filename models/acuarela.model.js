@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 
 let AcuarelaSchema = new Schema({
   name: { type: String, required: true, max: 50 },
-  // artistId: {type: String, required: true},
+  authorId: { type: String, required: true },
+  author: { type: String, max: 30 },
   createdDate: { type: Date, required: false },
   images: { type: Object, required: false },
   technique: { type: String, required: false },
