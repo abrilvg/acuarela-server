@@ -26,7 +26,7 @@ exports.acuarela_create = (req, res, next) => {
                 author: acuarela.author,
                 rating: acuarela.rating,
             },
-            token: UserHelper.generateToken(res.userData)
+            token: UserHelper.generateToken(res.userData.email, res.userData.userId)
         });
     })
 };
@@ -37,7 +37,18 @@ exports.acuarela_all = (req, res) => {
 
         res.status(200).send({
             data: acuarelas,
-            token: UserHelper.generateToken(res.userData)
+            token: UserHelper.generateToken(res.userData.email, res.userData.userId)
+        });
+    });
+}
+
+exports.acuarela_all_from = (req, res) => {
+    Acuarela.find({ authorId: req.params.id }, 'name author rating technique images', (err, acuarelas) => {
+        if (err) return next(err);
+
+        res.status(200).send({
+            data: acuarelas,
+            token: UserHelper.generateToken(res.userData.email, res.userData.userId)
         });
     });
 }
@@ -48,7 +59,7 @@ exports.acuarela_details = (req, res) => {
 
         res.status(200).send({
             data: acuarela,
-            token: UserHelper.generateToken(res.userData)
+            token: UserHelper.generateToken(res.userData.email, res.userData.userId)
         });
     })
 };
