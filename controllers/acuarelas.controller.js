@@ -1,5 +1,4 @@
 const Acuarela = require('../models/acuarela.model');
-const UserHelper = require('./userHelper');
 
 exports.acuarela_create = (req, res, next) => {
     let acuarela = new Acuarela({
@@ -25,19 +24,17 @@ exports.acuarela_create = (req, res, next) => {
                 name: acuarela.name,
                 author: acuarela.author,
                 rating: acuarela.rating,
-            },
-            token: UserHelper.generateToken(res.userData.email, res.userData.userId)
+            }
         });
     })
 };
 
 exports.acuarela_all = (req, res) => {
-    Acuarela.find({}, 'name author rating technique images', (err, acuarelas) => {
+    Acuarela.find({}, 'name author authorId rating technique images', (err, acuarelas) => {
         if (err) return next(err);
 
         res.status(200).send({
-            data: acuarelas,
-            token: UserHelper.generateToken(res.userData.email, res.userData.userId)
+            data: acuarelas
         });
     });
 }
@@ -47,8 +44,7 @@ exports.acuarela_all_from = (req, res) => {
         if (err) return next(err);
 
         res.status(200).send({
-            data: acuarelas,
-            token: UserHelper.generateToken(res.userData.email, res.userData.userId)
+            data: acuarelas
         });
     });
 }
@@ -58,8 +54,7 @@ exports.acuarela_details = (req, res) => {
         if (err) return next(err);
 
         res.status(200).send({
-            data: acuarela,
-            token: UserHelper.generateToken(res.userData.email, res.userData.userId)
+            data: acuarela
         });
     })
 };
@@ -69,8 +64,7 @@ exports.acuarela_update = (req, res) => {
         if (err) return next(err);
 
         res.status(200).send({
-            data: 'Acuarela udpated.',
-            token: UserHelper.generateToken(res.userData.email, res.userData.userId)
+            data: 'Acuarela udpated.'
         });
     });
 };
@@ -78,8 +72,6 @@ exports.acuarela_update = (req, res) => {
 exports.acuarela_delete = (req, res) => {
     Acuarela.findByIdAndRemove(req.params.id, (err) => {
         if (err) return next(err);
-        res.status(204).send({
-            token: UserHelper.generateToken(res.userData.email, res.userData.userId)
-        }); //no body response
+        res.status(204); //no body response
     })
 };

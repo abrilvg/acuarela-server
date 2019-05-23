@@ -104,7 +104,6 @@ exports.user_logout = (req, res, next) => {
 //TODO user update info
 
 //TODO user delete
-//TODO missing send new token, every request needs to return new token always
 exports.user_details = (req, res, next) => {
   //get only certain fields
   User.find({ _id: req.params.id }, 'birthDate country description email lastname name phoneNumber')
