@@ -8,6 +8,7 @@ exports.user_create = (req, res, next) => {
     .exec()
     .then(user => {
       if (user.length) {
+        //TODO review error code to other
         return res.status(409).json({
           message: 'Mail exists'
         });
