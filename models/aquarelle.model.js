@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-let AcuarelaSchema = new Schema({
+let AquarelleSchema = new Schema({
   name: { type: String, required: true, max: 50 },
   authorId: { type: String, required: true },
   author: { type: String, max: 30 },
@@ -14,4 +14,4 @@ let AcuarelaSchema = new Schema({
   rating: { type: Number, required: true }
 });
 
-module.exports = mongoose.model('Acuarela', AcuarelaSchema);
+module.exports = mongoose.model('Aquarelle', AquarelleSchema);

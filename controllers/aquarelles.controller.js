@@ -1,7 +1,7 @@
-const Acuarela = require('../models/acuarela.model');
+const Aquarelle = require('../models/aquarelle.model');
 
-exports.acuarela_create = (req, res, next) => {
-    let acuarela = new Acuarela({
+exports.aquarelle_create = (req, res, next) => {
+    let aquarelle = new Aquarelle({
         name: req.body.name,
         authorId: req.body.authorId,
         author: req.body.author,
@@ -14,53 +14,53 @@ exports.acuarela_create = (req, res, next) => {
         rating: req.body.rating
     });
 
-    acuarela.save(err => {
+    aquarelle.save(err => {
         if (err) return next(err);
 
         // 201 always for created
         res.status(201).send({
-            message: 'Acuarela Created successfully',
+            message: 'Aquarelle Created successfully',
             data: {
-                name: acuarela.name,
-                author: acuarela.author,
-                rating: acuarela.rating,
+                name: aquarelle.name,
+                author: aquarelle.author,
+                rating: aquarelle.rating,
             }
         });
     })
 };
 
-exports.acuarela_all = (req, res) => {
-    Acuarela.find({}, 'name author authorId rating technique images', (err, acuarelas) => {
+exports.aquarelle_all = (req, res) => {
+    Aquarelle.find({}, 'name author authorId rating technique images', (err, aquarelles) => {
         if (err) return next(err);
 
         res.status(200).send({
-            data: acuarelas
+            data: aquarelles
         });
     });
 }
 
-exports.acuarela_all_from = (req, res) => {
-    Acuarela.find({ authorId: req.params.id }, 'name author rating technique images', (err, acuarelas) => {
+exports.aquarelle_all_from = (req, res) => {
+    Aquarelle.find({ authorId: req.params.id }, 'name author rating technique images', (err, aquarelles) => {
         if (err) return next(err);
 
         res.status(200).send({
-            data: acuarelas
+            data: aquarelles
         });
     });
 }
 
-exports.acuarela_details = (req, res) => {
-    Acuarela.findById(req.params.id, (err, acuarela) => {
+exports.aquarelle_details = (req, res) => {
+    Aquarelle.findById(req.params.id, (err, aquarelle) => {
         if (err) return next(err);
 
         res.status(200).send({
-            data: acuarela
+            data: aquarelle
         });
     })
 };
 
-exports.acuarela_update = (req, res) => {
-    Acuarela.findByIdAndUpdate(req.params.id, { $set: req.body }, (err, acuarela) => {
+exports.aquarelle_update = (req, res) => {
+    Aquarelle.findByIdAndUpdate(req.params.id, { $set: req.body }, (err, acuarela) => {
         if (err) return next(err);
 
         res.status(200).send({
@@ -69,8 +69,8 @@ exports.acuarela_update = (req, res) => {
     });
 };
 
-exports.acuarela_delete = (req, res) => {
-    Acuarela.findByIdAndRemove(req.params.id, (err) => {
+exports.aquarelle_delete = (req, res) => {
+    Aquarelle.findByIdAndRemove(req.params.id, (err) => {
         if (err) return next(err);
         res.status(204); //no body response
     })
